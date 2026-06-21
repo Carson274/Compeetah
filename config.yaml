@@ -1,0 +1,37 @@
+# =====================================================================
+# Compeetah dashboard configuration  (edit me — no secrets live here)
+# Secrets (API keys, tokens) go in backend/.env  — see backend/.env.example
+# =====================================================================
+
+units: imperial            # imperial (°F, mi) | metric (°C, km)
+poll_interval_minutes: 5   # how often weather + drive time refresh
+
+# "Home" — where you live right now. Anything inside radius_m of this
+# point counts as "home"; outside it, the dashboard shows the distance.
+home:
+  label: "San José Airport"
+  lat: 37.3639
+  lon: -121.9289
+  radius_m: 300            # an airport is big; tighten this to your real place
+
+# "Work" — the drive-time destination.
+work:
+  label: "Netflix HQ — Los Gatos"
+  lat: 37.2580
+  lon: -121.9637
+
+# Where drive-time is measured *from*. "home" uses the home point above;
+# "live" uses each person's most recent location (falls back to home).
+drive_origin: home          # home | live
+
+# The people on the dashboard. `id` is used in the OwnTracks URL
+# (?user=<id>); `owntracks_tid` is the 2-char Tracker ID set in the app.
+users:
+  - id: carson
+    name: "Carson"
+    color: "#E50914"        # Netflix red
+    owntracks_tid: "Ca"
+  - id: roommate
+    name: "Roommate"
+    color: "#4EA1FF"
+    owntracks_tid: "Ro"
