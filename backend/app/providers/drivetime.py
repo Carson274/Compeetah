@@ -11,18 +11,17 @@ class DriveTimeResult(dict):
 
 
 async def fetch_drive_time(
-    origin_lat: float,
-    origin_lon: float,
-    dest_lat: float,
-    dest_lon: float,
+    origin: str,
+    destination: str,
     api_key: str,
 ) -> DriveTimeResult:
+    """`origin`/`destination` are anything Google accepts: an address or "lat,lon"."""
     if not api_key:
         return DriveTimeResult(status="needs_key")
 
     params = {
-        "origins": f"{origin_lat},{origin_lon}",
-        "destinations": f"{dest_lat},{dest_lon}",
+        "origins": origin,
+        "destinations": destination,
         "departure_time": "now",          # required for live-traffic duration
         "traffic_model": "best_guess",
         "units": "metric",

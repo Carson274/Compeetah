@@ -94,17 +94,22 @@ confirm the Netflix office, set `units` (`imperial`/`metric`), and name the two
 people. `drive_origin: home` measures the commute from home; `live` measures it
 from whoever's most recent location.
 
-### Google Maps key (drive time)
+### Google Maps key (drive time + route map)
 
 1. In [Google Cloud Console](https://console.cloud.google.com/), create a project
-   and **enable the “Distance Matrix API”**.
+   and enable **two** APIs:
+   - **Distance Matrix API** → the live drive time / ETA
+   - **Maps Embed API** → the route map inside the Drive card (free, unlimited loads)
 2. Create an API key, then put it in `backend/.env`:
    ```
    GOOGLE_MAPS_API_KEY=your_key_here
    ```
 
-Until that's set, the commute card simply shows an “add a key” note — nothing
-breaks. **Never commit a real key** — it belongs only in `backend/.env`.
+Until the key is set, the commute card shows an “add a key” note; until **Maps
+Embed API** is enabled, the map area shows Google's “API not activated” message —
+nothing else breaks. The key is exposed in the map's iframe URL (normal for the
+Embed API), so restrict it by **HTTP referrer** in the Cloud Console.
+**Never commit a real key** — it belongs only in `backend/.env`.
 
 ---
 

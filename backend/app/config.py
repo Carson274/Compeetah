@@ -40,6 +40,12 @@ class Place(BaseModel):
     lat: float
     lon: float
     radius_m: float = 300.0
+    address: str | None = None  # precise street address for maps/routing
+
+    @property
+    def waypoint(self) -> str:
+        """Best string to hand Google for routing — address if we have one."""
+        return self.address or f"{self.lat},{self.lon}"
 
 
 class User(BaseModel):

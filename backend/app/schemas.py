@@ -31,6 +31,7 @@ class CommuteOut(BaseModel):
     duration_traffic_s: float | None = None
     as_of: datetime | None = None
     status: str = "ok"  # ok | needs_key | error | pending
+    map_embed_url: str | None = None  # Google Maps Embed (directions) iframe src
 
 
 class PersonOut(BaseModel):

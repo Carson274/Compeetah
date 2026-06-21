@@ -18,8 +18,8 @@ log = logging.getLogger("compeetah.scheduler")
 _scheduler: AsyncIOScheduler | None = None
 
 
-def _drive_origin(db, cfg: AppConfig) -> tuple[float, float, str]:
-    """Resolve where the commute is measured from."""
+def _drive_origin(db, cfg: AppConfig) -> tuple[str, str]:
+    """Resolve where the commute is measured from: (google_waypoint, label)."""
     if cfg.drive_origin == "live":
         from sqlalchemy import select
 
@@ -27,8 +27,8 @@ def _drive_origin(db, cfg: AppConfig) -> tuple[float, float, str]:
             select(LocationReading).order_by(LocationReading.recorded_at.desc()).limit(1)
         ).first()
         if row:
-            return row.lat, row.lon, "Current location"
-    return cfg.home.lat, cfg.home.lon, cfg.home.label
+            return f"{row.lat},{row.lon}", "Current location"
+    return cfg.home.waypoint, cfg.home.label
 
 
 async def refresh_weather(cfg: AppConfig) -> None:
@@ -46,9 +46,9 @@ async def refresh_weather(cfg: AppConfig) -> None:
 
 async def refresh_drive_time(cfg: AppConfig, settings: Settings) -> None:
     with SessionLocal() as db:
-        olat, olon, olabel = _drive_origin(db, cfg)
+        origin, olabel = _drive_origin(db, cfg)
     result = await fetch_drive_time(
-        olat, olon, cfg.work.lat, cfg.work.lon, settings.google_maps_api_key
+        origin, cfg.work.waypoint, settings.google_maps_api_key
     )
     if result.get("status") != "ok":
         if result.get("status") != "needs_key":

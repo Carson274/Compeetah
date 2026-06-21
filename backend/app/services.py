@@ -3,6 +3,7 @@ persist new readings."""
 from __future__ import annotations
 
 from datetime import datetime, timezone
+from urllib.parse import urlencode
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session
@@ -124,13 +125,32 @@ def _checklist(db: Session) -> list[ChecklistItemOut]:
     ]
 
 
+def _map_embed_url(cfg: AppConfig) -> str | None:
+    """Google Maps Embed (directions) URL for the home -> work route. Free,
+    unlimited loads; needs the 'Maps Embed API' enabled on the same key."""
+    key = get_settings().google_maps_api_key
+    if not key:
+        return None
+    params = urlencode(
+        {
+            "key": key,
+            "origin": cfg.home.waypoint,
+            "destination": cfg.work.waypoint,
+            "mode": "driving",
+        }
+    )
+    return f"https://www.google.com/maps/embed/v1/directions?{params}"
+
+
 def build_dashboard(db: Session, cfg: AppConfig) -> DashboardOut:
+    commute = _latest_commute(db, cfg)
+    commute.map_embed_url = _map_embed_url(cfg)
     return DashboardOut(
         units=cfg.units,
         home=PlaceOut(label=cfg.home.label, lat=cfg.home.lat, lon=cfg.home.lon),
         work=PlaceOut(label=cfg.work.label, lat=cfg.work.lat, lon=cfg.work.lon),
         weather=_latest_weather(db),
-        commute=_latest_commute(db, cfg),
+        commute=commute,
         people=_people(db, cfg),
         sensors=_sensors(db),
         checklist=_checklist(db),

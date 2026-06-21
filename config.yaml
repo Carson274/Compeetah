@@ -6,19 +6,22 @@
 units: imperial            # imperial (°F, mi) | metric (°C, km)
 poll_interval_minutes: 5   # how often weather + drive time refresh
 
-# "Home" — where you live right now. Anything inside radius_m of this
-# point counts as "home"; outside it, the dashboard shows the distance.
+# "Home" — where you live. Anything inside radius_m of lat/lon counts as
+# "home"; outside it, the dashboard shows the distance. The `address` is used
+# for the route map + drive time (more precise than the street-level lat/lon).
 home:
-  label: "San José Airport"
-  lat: 37.3639
-  lon: -121.9289
-  radius_m: 300            # an airport is big; tighten this to your real place
+  label: "Home — Santa Clara"
+  address: "1200 Rickabaugh Way, Santa Clara, CA 95050"
+  lat: 37.3558759
+  lon: -121.9345402
+  radius_m: 350            # street-level geocode; widen/tighten once you see real GPS
 
-# "Work" — the drive-time destination.
+# "Work" — the drive-time destination + map endpoint.
 work:
-  label: "Netflix HQ — Los Gatos"
-  lat: 37.2580
-  lon: -121.9637
+  label: "Netflix — Los Gatos"
+  address: "121 Albright Way, Los Gatos, CA 95032"
+  lat: 37.2569243
+  lon: -121.9639389
 
 # Where drive-time is measured *from*. "home" uses the home point above;
 # "live" uses each person's most recent location (falls back to home).

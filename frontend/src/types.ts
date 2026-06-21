@@ -25,6 +25,7 @@ export interface Commute {
   duration_traffic_s: number | null;
   as_of: string | null;
   status: "ok" | "needs_key" | "error" | "pending";
+  map_embed_url: string | null;
 }
 
 export interface Person {
