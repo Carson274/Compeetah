@@ -9,14 +9,29 @@ export default function Control() {
   const [items, setItems] = useState<ChecklistItem[]>([]);
   const [text, setText] = useState("");
   const [busy, setBusy] = useState(false);
+  const [overlay, setOverlay] = useState<string | null>(null);
 
-  const load = () => api.checklist().then(setItems).catch(() => {});
+  const load = () => {
+    api.checklist().then(setItems).catch(() => {});
+    api.getOverlay().then((r) => setOverlay(r.overlay)).catch(() => {});
+  };
   useEffect(() => {
     load();
     const onFocus = () => load();
     window.addEventListener("focus", onFocus);
     return () => window.removeEventListener("focus", onFocus);
   }, []);
+
+  async function toggleRules() {
+    const next = overlay === "secret_hitler" ? null : "secret_hitler";
+    setOverlay(next); // optimistic
+    try {
+      await api.setOverlay(next);
+    } catch {
+      api.getOverlay().then((r) => setOverlay(r.overlay)).catch(() => {});
+    }
+  }
+  const rulesOn = overlay === "secret_hitler";
 
   async function add(e: React.FormEvent) {
     e.preventDefault();
@@ -54,8 +69,12 @@ export default function Control() {
     <div className="control">
       <header>
         <h1>COMPEETAH</h1>
-        <span>checklist</span>
+        <span>control</span>
       </header>
+
+      <button className={`tv-toggle ${rulesOn ? "on" : ""}`} onClick={toggleRules}>
+        {rulesOn ? "✕  Hide Secret Hitler rules" : "🎴  Show Secret Hitler rules on TV"}
+      </button>
 
       <form className="addform" onSubmit={add}>
         <input

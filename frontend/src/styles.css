@@ -301,3 +301,97 @@ body {
 .ctl-item .del { background: none; border: none; color: var(--idle); font-size: 1.4rem; cursor: pointer; padding: 0.2rem 0.4rem; }
 .ctl-empty { text-align: center; color: var(--ink-soft); font-family: var(--hand); font-size: 1.3rem; padding: 2rem 0; }
 .backlink { display: inline-block; margin-top: 1.5rem; color: var(--ink-soft); font-family: var(--hand); font-size: 1.2rem; text-decoration: none; }
+
+/* TV overlay toggle on the control page */
+.tv-toggle {
+  width: 100%; border: none; border-radius: 14px; padding: 1rem 1.1rem;
+  font-family: var(--sans); font-size: 1.1rem; font-weight: 800; cursor: pointer;
+  margin-bottom: 1.1rem; background: #1a1714; color: #efe3c4; box-shadow: var(--shadow);
+}
+.tv-toggle.on { background: #c0392b; color: #fff; }
+.tv-toggle:active { transform: translateY(1px); }
+
+/* =====================================================================
+   Secret Hitler full-screen rules overlay (game-night reference)
+   ===================================================================== */
+.sh-overlay {
+  --sh-cream: #efe3c4; --sh-card: #f6eed6; --sh-ink: #1a1714;
+  --sh-red: #c0392b; --sh-red-deep: #8f2a20;
+  --sh-blue: #2f6f7e; --sh-blue-deep: #234f59;
+  position: fixed; inset: 0; z-index: 100; overflow: auto;
+  background-color: var(--sh-cream);
+  background-image:
+    repeating-linear-gradient(45deg, rgba(26,23,20,0.035) 0 2px, transparent 2px 9px),
+    radial-gradient(120% 100% at 50% 0%, rgba(255,255,255,0.5), transparent 55%);
+  color: var(--sh-ink);
+  padding: clamp(0.6rem, 1.2vw, 1.3rem);
+  display: flex; flex-direction: column; gap: clamp(0.45rem, 0.9vw, 0.85rem);
+}
+.sh-header { display: flex; align-items: center; justify-content: center; gap: clamp(0.8rem, 2.5vw, 2.5rem); }
+.sh-stache { width: clamp(2.4rem, 5.5vw, 5.5rem); color: var(--sh-ink); flex: none; }
+.sh-title { text-align: center; }
+.sh-title h1 {
+  font-family: var(--display); color: var(--sh-red);
+  font-size: clamp(2.2rem, 5.2vw, 5rem); letter-spacing: 0.08em; line-height: 0.88;
+}
+.sh-title p { font-family: var(--sans); font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; font-size: clamp(0.65rem, 1.1vw, 1.05rem); color: var(--sh-ink); opacity: 0.7; }
+
+.sh-grid {
+  flex: 1; min-height: 0; display: grid; gap: clamp(0.45rem, 0.9vw, 0.85rem);
+  grid-template-columns: 1.05fr 1fr 1.05fr;
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    "liberal setup  fascist"
+    "round   powers forget";
+}
+.sh-panel {
+  background: var(--sh-card); border: 3px solid var(--sh-ink); border-radius: 6px;
+  padding: clamp(0.55rem, 1vw, 1rem); min-height: 0; overflow: hidden;
+  box-shadow: 4px 4px 0 rgba(26,23,20,0.18);
+}
+.sh-panel h2 {
+  font-family: var(--display); font-weight: 400; letter-spacing: 0.04em;
+  font-size: clamp(1rem, 1.6vw, 1.6rem); margin-bottom: 0.35rem;
+  border-bottom: 2px solid currentColor; padding-bottom: 0.15rem;
+}
+.sh-panel ul, .sh-panel ol { padding-left: 1.05rem; display: flex; flex-direction: column; gap: 0.28rem; }
+.sh-panel li { font-size: clamp(0.74rem, 1.05vw, 1.02rem); line-height: 1.23; }
+.sh-foot { margin-top: 0.4rem; font-size: clamp(0.66rem, 0.92vw, 0.92rem); line-height: 1.25; opacity: 0.85; }
+
+.sh-panel.liberal { grid-area: liberal; border-color: var(--sh-blue-deep); background: #e9ecdf; }
+.sh-panel.liberal h2 { color: var(--sh-blue-deep); }
+.sh-panel.fascist { grid-area: fascist; border-color: var(--sh-red-deep); background: #f3e2d3; }
+.sh-panel.fascist h2 { color: var(--sh-red-deep); }
+.sh-setup { grid-area: setup; }
+.sh-round { grid-area: round; }
+.sh-powers { grid-area: powers; }
+.sh-forget { grid-area: forget; background: var(--sh-ink); color: var(--sh-cream); border-color: var(--sh-red); }
+.sh-forget h2 { color: #f0b429; }
+.sh-forget b { color: #f0b429; }
+
+.sh-steps { counter-reset: step; padding-left: 0 !important; list-style: none; }
+.sh-steps li { display: flex; gap: 0.55rem; }
+.sh-steps li::before {
+  counter-increment: step; content: counter(step);
+  flex: none; width: 1.5em; height: 1.5em; border-radius: 50%;
+  background: var(--sh-red); color: #fff; font-weight: 800;
+  display: grid; place-items: center; font-size: 0.8em;
+}
+
+.sh-table { width: 100%; border-collapse: collapse; font-size: clamp(0.68rem, 0.98vw, 0.98rem); }
+.sh-table th { background: var(--sh-ink); color: var(--sh-cream); font-family: var(--display); font-weight: 400; letter-spacing: 0.05em; padding: 0.18rem 0.35rem; }
+.sh-table td { border: 1px solid rgba(26,23,20,0.25); padding: 0.18rem 0.35rem; text-align: center; }
+.sh-table .yes { color: var(--sh-blue-deep); font-weight: 800; }
+.sh-table .no { color: var(--sh-red-deep); font-weight: 800; }
+.sh-table .kill { color: var(--sh-red-deep); font-weight: 800; }
+
+.sh-bar {
+  text-align: center; background: var(--sh-red); color: var(--sh-cream);
+  font-family: var(--display); letter-spacing: 0.14em; font-size: clamp(0.8rem, 1.3vw, 1.3rem);
+  padding: 0.28rem; border-radius: 4px; text-transform: uppercase;
+}
+
+@media (max-width: 1000px) {
+  .sh-grid { grid-template-columns: 1fr 1fr; grid-template-rows: none;
+    grid-template-areas: "liberal fascist" "setup setup" "round powers" "forget forget"; }
+}

@@ -79,6 +79,7 @@ class ChecklistItemPatch(BaseModel):
 
 class DashboardOut(BaseModel):
     units: str
+    overlay: str | None = None  # full-screen TV overlay, e.g. "secret_hitler"
     home: PlaceOut
     work: PlaceOut
     weather: WeatherOut | None = None

@@ -61,6 +61,7 @@ export interface ChecklistItem {
 
 export interface Dashboard {
   units: Units;
+  overlay: string | null;
   home: Place;
   work: Place;
   weather: Weather | null;

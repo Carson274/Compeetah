@@ -35,6 +35,6 @@ users:
     color: "#E50914"        # Netflix red
     owntracks_tid: "Ca"
   - id: roommate
-    name: "Roommate"
+    name: "Peter"
     color: "#4EA1FF"
     owntracks_tid: "Ro"

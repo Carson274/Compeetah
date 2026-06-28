@@ -5,12 +5,17 @@ import { CommuteCard } from "./components/CommuteCard";
 import { PeopleCards } from "./components/PeopleCards";
 import { SensorsCard } from "./components/SensorsCard";
 import { ChecklistCard } from "./components/ChecklistCard";
+import { SecretHitlerRules } from "./components/SecretHitlerRules";
 
 export default function App() {
   const { data, connected } = useDashboard();
 
   if (!data) {
     return <div className="loading">warming up the whiteboard…</div>;
+  }
+
+  if (data.overlay === "secret_hitler") {
+    return <SecretHitlerRules />;
   }
 
   const names = Object.fromEntries(data.people.map((p) => [p.id, p.name]));

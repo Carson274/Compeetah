@@ -15,7 +15,7 @@ from sqlalchemy import func, select
 from .config import REPO_ROOT, get_settings
 from .db import SessionLocal, init_db
 from .models import ChecklistItem
-from .routers import checklist, dashboard, owntracks, sensors
+from .routers import checklist, dashboard, overlay, owntracks, sensors
 from .scheduler import poll_once, start_scheduler, stop_scheduler
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
@@ -65,6 +65,7 @@ app.include_router(dashboard.router)
 app.include_router(owntracks.router)
 app.include_router(checklist.router)
 app.include_router(sensors.router)
+app.include_router(overlay.router)
 
 
 @app.get("/api/health")

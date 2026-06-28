@@ -17,6 +17,7 @@ from .models import (
     WeatherReading,
 )
 from .providers.weather import describe
+from .state import state
 from .schemas import (
     ChecklistItemOut,
     CommuteOut,
@@ -147,6 +148,7 @@ def build_dashboard(db: Session, cfg: AppConfig) -> DashboardOut:
     commute.map_embed_url = _map_embed_url(cfg)
     return DashboardOut(
         units=cfg.units,
+        overlay=state.overlay,
         home=PlaceOut(label=cfg.home.label, lat=cfg.home.lat, lon=cfg.home.lon),
         work=PlaceOut(label=cfg.work.label, lat=cfg.work.lat, lon=cfg.work.lon),
         weather=_latest_weather(db),

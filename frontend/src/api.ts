@@ -28,4 +28,11 @@ export const api = {
     fetch(`${BASE}/api/checklist/${id}/toggle`, { method: "POST" }).then(j<ChecklistItem>),
   remove: (id: number) =>
     fetch(`${BASE}/api/checklist/${id}`, { method: "DELETE" }).then(j<void>),
+  getOverlay: () => fetch(`${BASE}/api/overlay`).then(j<{ overlay: string | null }>),
+  setOverlay: (overlay: string | null) =>
+    fetch(`${BASE}/api/overlay`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ overlay }),
+    }).then(j<{ overlay: string | null }>),
 };
